@@ -38,7 +38,7 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
 
             if lista[0] == "INVITE":
 
-               self.wfile.write("SIP/2.0 100 BAD TRYING" + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + "SIP/2.0 200 OK" + '\r\n')
+               self.wfile.write("SIP/2.0 100 BAD TRYING" + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + "SIP/2.0 200 OK" + '\r\n' + '\r\n')
             
 #           elif lista[0] == "ACK":
             
