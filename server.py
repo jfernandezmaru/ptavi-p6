@@ -29,11 +29,21 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
 
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
-        self.wfile.write("Hemos recibido tu peticion")
+
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
             print "El cliente nos manda " + line
+            lista = line.split(" ")
+            
+            if lista[0] == "INVITE":
+            
+            elif lista[0] == "ACK":
+            
+            elif lista[0] == "BYE":
+            
+            else
+                self.wfile.write("SIP/2.0 405 Method Not Allowed" '\r\n')
 
             # Si no hay más líneas salimos del bucle infinito
             if not line:
