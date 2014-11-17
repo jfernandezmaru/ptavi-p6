@@ -34,12 +34,13 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
-            print "El cliente nos manda " + line
-            lista = line.split(" ")
-            Metodo = lista[0]
-            IP_Cliente = lista[1].split["@"][1]
-            print "XXXXXXXXXXXXXXXXXXXXXXXXXX" + IP_Cliente
-            if lista != "" :
+            if line != "" :
+                print "El cliente nos manda " + line
+                lista = line.split(" ")
+                Metodo = lista[0]
+                print "XXXXXXXXXXXXXXXXXXXXXXXXXX " + Metodo
+                IP_Cliente = lista[1].split("@")[1]
+                print "XXXXXXXXXXXXXXXXXXXXXXXXXX " + IP_Cliente
                 if Metodo == "INVITE":
 
                     self.wfile.write("SIP/2.0 100 TRYING" + '\r\n' + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + '\r\n' + "SIP/2.0 200 OK" + '\r\n' + '\r\n')
