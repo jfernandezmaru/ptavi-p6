@@ -15,7 +15,9 @@ try:
     """
     SERVER = sys.argv[1]
     PORT = int(sys.argv[2])
-    os.access(sys.argv[3], os.F_OK)
+    if not os.access(sys.argv[3], os.F_OK):
+        print "Usage: python server.py IP port audio_file"
+        sys.exit()
     AUDIO = sys.argv[3]
 
 except ValueError:
@@ -29,27 +31,36 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
     """
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
-        self.wfile.write("SIP/2.0 400 BAD REQUEST" + '\r\n')
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
             print "El cliente nos manda " + line
             lista = line.split(" ")
+            Metodo = lista[0]
+            IP_Cliente = lista[1].split["@"][1]
+            print "XXXXXXXXXXXXXXXXXXXXXXXXXX" + IP_Cliente
+            if lista != "" :
+                if Metodo == "INVITE":
 
-            if lista[0] == "INVITE":
+                    self.wfile.write("SIP/2.0 100 TRYING" + '\r\n' + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + '\r\n' + "SIP/2.0 200 OK" + '\r\n' + '\r\n')
+                
+                elif Metodo == "ACK":
+                
+                    Packet = "./mp32rtp -i IP_Cliente -p 23032 < " + AUDIO
+                    os.system(Packet)
+                    
+                elif Metodo == "BYE":
+                
+                    self.wfile.write("SIP/2.0 200 OK" + '\r\n' + '\r\n')
+                    print "El cliente " + IP_Cliente + " abandona la conexión"
+                else:
+                    self.wfile.write("SIP/2.0 405 Method Not Allowed" '\r\n')
 
-               self.wfile.write("SIP/2.0 100 BAD TRYING" + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + "SIP/2.0 200 OK" + '\r\n' + '\r\n')
-            
-#           elif lista[0] == "ACK":
-            
-#           elif lista[0] == "BYE":
-
+                # Si no hay más líneas salimos del bucle infinito
+                if not line:
+                    break
             else:
-                self.wfile.write("SIP/2.0 405 Method Not Allowed" '\r\n')
-
-            # Si no hay más líneas salimos del bucle infinito
-            if not line:
-                break
+                self.wfile.write("SIP/2.0 400 BAD REQUEST" + '\r\n')
 
 if __name__ == "__main__":
 
