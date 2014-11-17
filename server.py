@@ -5,6 +5,7 @@ Clase (y programa principal) para un servidor de eco en UDP simple
 """
 
 import SocketServer
+import sys
 import os
 
 
@@ -34,16 +35,16 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
             line = self.rfile.read()
             print "El cliente nos manda " + line
             lista = line.split(" ")
-            
+
             if lista[0] == "INVITE":
+
+               self.wfile.write("SIP/2.0 100 BAD TRYING" + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + "SIP/2.0 200 OK" + '\r\n')
             
-                self.wfile.write("SIP/2.0 100 BAD TRYING" + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + "SIP/2.0 200 OK" + '\r\n')
+#           elif lista[0] == "ACK":
             
-            elif lista[0] == "ACK":
-            
-            elif lista[0] == "BYE":
-            
-            else
+#           elif lista[0] == "BYE":
+
+            else:
                 self.wfile.write("SIP/2.0 405 Method Not Allowed" '\r\n')
 
             # Si no hay más líneas salimos del bucle infinito
@@ -51,7 +52,15 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
                 break
 
 if __name__ == "__main__":
+
     # Creamos servidor de eco y escuchamos
-    serv = SocketServer.UDPServer(("", 6001), EchoHandler)
-    print "Lanzando servidor UDP de eco..."
+    serv = SocketServer.UDPServer((SERVER, PORT), EchoHandler)
     serv.serve_forever()
+    
+    
+    
+    
+    
+    
+    
+    
