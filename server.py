@@ -26,10 +26,9 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
     """
     Echo server class
     """
-
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
-
+        self.wfile.write("SIP/2.0 400 BAD REQUEST" + '\r\n')
         while 1:
             # Leyendo línea a línea lo que nos envía el cliente
             line = self.rfile.read()
@@ -37,6 +36,8 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
             lista = line.split(" ")
             
             if lista[0] == "INVITE":
+            
+                self.wfile.write("SIP/2.0 100 BAD TRYING" + '\r\n' + "SIP/2.0 180 RING" + '\r\n' + "SIP/2.0 200 OK" + '\r\n')
             
             elif lista[0] == "ACK":
             
