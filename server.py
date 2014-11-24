@@ -27,12 +27,14 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
                 print "El cliente nos manda " + line
                 lista = line.split(" ")
                 Metodo = lista[0]
-                IP_Cliente = lista[1].split("@")[1]
+                IP_Cliente = str(self.client_address[0])
 
                 if Metodo == "INVITE":
                     self.wfile.write("SIP/2.0 100 Trying\r\n\r\n" + "SIP/2.0 180 Ringing\r\n\r\n" + "SIP/2.0 200 OK\r\n\r\n")
 
                 elif Metodo == "ACK":
+                    
+                    os.system("chmod 777 mp32rtp")
                     Packet = "./mp32rtp -i 127.0.0.1 -p 23032 < " + AUDIO
                     os.system(Packet)
 

@@ -6,15 +6,11 @@ Programa cliente que abre un socket a un servidor
 
 import socket
 import sys
-# Cliente UDP simple.
-
-# Dirección IP del servidor.
 
 try:
     """
     Intentamos construir el Cliente
     """
-#    SERVER = 'localhost'
     METODO = sys.argv[1].upper()
     INICIO = sys.argv[2]
     NICK = INICIO.split("@")[0]
@@ -32,12 +28,19 @@ try:
         my_socket.send(LINE + '\r\n')
         data = my_socket.recv(1024)
         print "Enviando: " + LINE
-        print 'Recibido -- ', data
+        print 'Recibido --', data
         
-        LINE = 'ACK' + " sip:" + NICK + "@" + SERVER + " SIP/2.0\r\n"
-        my_socket.send(LINE + '\r\n')
-        data = my_socket.recv(1024)
-        print "Terminando socket..."
+        processed_data = data.split('\r\n\r\n')
+
+        if  processed_data[0] == "SIP/2.0 100 Trying"    and \
+            processed_data[1] == "SIP/2.0 180 Ringing"   and \
+            processed_data[2] == "SIP/2.0 200 OK":
+        
+            LINE = 'ACK' + " sip:" + NICK + "@" + SERVER + " SIP/2.0\r\n"
+            my_socket.send(LINE + '\r\n')
+            data = my_socket.recv(1024)        
+            print "Terminando socket..."
+  
         # Cerramos todo
         my_socket.close()
         print "Fin."
