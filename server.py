@@ -5,19 +5,23 @@
 import SocketServer
 import sys
 import os
+"""
+    Programa servidor SIP en UDP
+"""
 
 
 class EchoHandler(SocketServer.DatagramRequestHandler):
-
+    """
+        Clase de Servidor SIP
+    """
     def handle(self):
         while 1:
             line = self.rfile.read()
             if not line:
-
                 self.wfile.write("SIP/2.0 400 Bad Request\r\n")
                 break
             else:
-
+                # Comprobamos el mensaje recibido del cliente
                 print "El cliente nos manda " + line
                 check1 = line.find("sip:")
                 check2 = line.find("@")
@@ -28,13 +32,13 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
                     lista = line.split(" ")
                     Metodo = lista[0]
                     IP_Cliente = str(self.client_address[0])
+                    # Comprobamos el método
                     if Metodo == "INVITE":
 
                         message = "SIP/2.0 100 Trying\r\n\r\n"
                         message = message + "SIP/2.0 180 Ringing\r\n\r\n"
                         message = message + "SIP/2.0 200 OK\r\n\r\n"
                         self.wfile.write(message)
-
                     elif Metodo == "ACK":
 
                         os.system("chmod 777 mp32rtp")
@@ -67,6 +71,6 @@ if __name__ == "__main__":
         print "Usage: python server.py IP port audio_file"
 
     print "Listening..."
-    # Creamos servidor de eco y escuchamos
+    # Creamos servidor de SIP y escuchamos
     serv = SocketServer.UDPServer((SERVER, PORT), EchoHandler)
     serv.serve_forever()

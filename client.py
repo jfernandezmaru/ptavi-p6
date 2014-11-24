@@ -27,8 +27,8 @@ try:
         data = my_socket.recv(1024)
         print "Enviando: " + LINE
         print "Recibido:", data
-
         processed_data = data.split('\r\n\r\n')
+        # Si recibimos trying Ringing y OK asentimos con ACK
 
         if processed_data[0] == "SIP/2.0 100 Trying" and\
            processed_data[1] == "SIP/2.0 180 Ringing" and\
