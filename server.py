@@ -35,7 +35,7 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
                 elif Metodo == "ACK":
                     
                     os.system("chmod 777 mp32rtp")
-                    Packet = "./mp32rtp -i 127.0.0.1 -p 23032 < " + AUDIO
+                    Packet = "./mp32rtp -i " + IP_Cliente + " -p 23032 < " + AUDIO
                     os.system(Packet)
 
                 elif Metodo == "BYE":
