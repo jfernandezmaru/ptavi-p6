@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-15 -*-
+# Practica 6 Javier Fernandez Marugan  PTAVI
 """
 Programa cliente que abre un socket a un servidor
 """
@@ -28,7 +29,7 @@ try:
         my_socket.send(LINE + '\r\n')
         data = my_socket.recv(1024)
         print "Enviando: " + LINE
-        print 'Recibido --', data
+        print "Recibido:", data
         
         processed_data = data.split('\r\n\r\n')
 
