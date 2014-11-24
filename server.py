@@ -9,6 +9,7 @@ import sys
 import os
 import os.path
 
+
 class EchoHandler(SocketServer.DatagramRequestHandler):
     """
     Echo server class
@@ -48,7 +49,6 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
             else:
                 Answer = "SIP/2.0 400 Bad Request\r\n\r\n"
                 self.wfile.write(Answer)
-            
 
 if __name__ == "__main__":
     # Creamos servidor de eco y escuchamos
