@@ -26,6 +26,7 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
             Metodos = ["INVITE", "ACK", "BYE"]
             Metodo = line.split(" ")[0]
             Mensaje = line.split(" ")
+            IP_Cliente = str(self.client_address[0])
             if len(Mensaje) == 3:
                 if Metodo in Metodos:
                     if Metodo == "INVITE":
@@ -35,7 +36,8 @@ class EchoHandler(SocketServer.DatagramRequestHandler):
                         self.wfile.write(Answer)
                     elif Metodo == "ACK":
                         fichero_audio = sys.argv[3]
-                        aEjecutar = "./mp32rtp -i 127.0.0.1 -p 23032 < "
+                        #Añadida la ip del cliente real no 127.0.0.1
+                        aEjecutar = "./mp32rtp -i " + IP_Cliente + " -p 23032 < "
                         aEjecutar += fichero_audio
                         print "Vamos a ejecutar", aEjecutar
                         os.system("chmod 755 mp32rtp")
